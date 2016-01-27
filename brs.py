@@ -15,17 +15,16 @@ headers = {'User_Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.3
 
 def login(username, password):
     session = requests.session()
+    
+    # 构造时间戳
     date = datetime.datetime.now()
     timestamp = str(date.year) + str(date.month-1) + str((date.weekday()+1)%7) + str(date.hour) + str(date.second) + (str(int(date.microsecond/1000)) if int(date.microsecond/1000) >0 else '0')
+
     url = 'http://www.renren.com/ajaxLogin/login?1=1&uniqueTimestamp=' + timestamp
     data = {
             'email': username,
-            'password': password,
-            'icode': '',
-            'origURL': 'http://www.renren.com/home',
-            'domain': 'renren.com',
-            'key_id': '1',
-            'captcha_type': 'web_login'}
+            'password': password
+            }
     resp = session.post(url, headers=headers, data=data)
     renren_id = re.match(r'.*id=(\d{9});.*', resp.headers['Set-Cookie'])
     if renren_id:
