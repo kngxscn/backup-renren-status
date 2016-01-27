@@ -9,7 +9,7 @@ p.s.: 不知道还有多少人还在用人人网，突然有一天翻了翻自�
 运行环境：Python3，安装Requests库
 
 在终端运行
-```python
+```bash
 python brs.py
 ```
 按指示做即可，运行结果保存在当前目录下的 renren_status 文件中
