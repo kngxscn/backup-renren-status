@@ -1,4 +1,4 @@
-# /usr/bin/env python3
+#!/usr/bin/env python3
 # encoding=utf-8
 # Author: renzongxian
 # Date: 2016/01/26
@@ -35,9 +35,7 @@ def login(username, password):
         exit(-1)
 
 
-def parse_html(username, password):
-    session, renren_id = login(username, password)
-    
+def parse_html(session, renren_id):
     # 提取所有状态及其评论
     curpage = 0
     status_list = []
@@ -76,7 +74,8 @@ def parse_html(username, password):
 if __name__ == '__main__':
     username = input('username:')
     password = getpass.getpass('password(输入时不显示):')
-    status_list = parse_html(username, password)
+    session, renren_id = login(username, password)
+    status_list = parse_html(session, renren_id)
     with codecs.open('renren_status', 'wb', encoding='utf-8') as fp:
         fp.write(u'{status}'.format(status='\n\n'.join(status_list)))
         fp.close()
