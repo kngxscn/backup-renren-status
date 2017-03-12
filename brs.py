@@ -11,11 +11,11 @@ import json
 import codecs
 import requests
 
-headers = {'User_Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML,     like Gecko) Chrome/47.0.2526.111 Safari/537.36'}
+headers = {'User_Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'}
 
 def login(username, password):
     session = requests.session()
-    
+
     # 构造时间戳
     date = datetime.datetime.now()
     timestamp = str(date.year) + str(date.month-1) + str((date.weekday()+1)%7) + str(date.hour) + str(date.second) + (str(int(date.microsecond/1000)) if int(date.microsecond/1000) >0 else '0')
@@ -67,15 +67,14 @@ def parse_html(session, renren_id):
                     comments_content += '\n    ' +  comment_item['authorName'] + '  ' + comment_item['time'] + '\n    ' + comment_item['content']
                 status_content += comments_content
             status_list.append(status_content)
-    
+
     return status_list
 
 
 if __name__ == '__main__':
-    username = input('username:')
+    username = input('username or email:')
     password = getpass.getpass('password(输入时不显示):')
     session, renren_id = login(username, password)
     status_list = parse_html(session, renren_id)
     with codecs.open('renren_status', 'wb', encoding='utf-8') as fp:
         fp.write(u'{status}'.format(status='\n\n'.join(status_list)))
-        fp.close()
